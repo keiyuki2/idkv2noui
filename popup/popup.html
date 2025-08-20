@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live Subtitles Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <h1>Live Subtitles</h1>
+      <div class="status-indicator" id="statusIndicator">
+        <span class="status-dot"></span>
+        <span class="status-text">Checking...</span>
+      </div>
+    </header>
+
+    <main class="popup-content">
+      <!-- Toggle Section -->
+      <section class="toggle-section">
+        <div class="toggle-row">
+          <label for="enableToggle">Enable Live Subtitles</label>
+          <div class="toggle-switch">
+            <input type="checkbox" id="enableToggle" class="toggle-input">
+            <span class="toggle-slider"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Settings -->
+      <section class="settings-section">
+        <h3>Quick Settings</h3>
+        
+        <div class="setting-row">
+          <label for="apiSelect">Speech Recognition API</label>
+          <select id="apiSelect" class="setting-select">
+            <option value="openai">OpenAI Whisper</option>
+            <option value="google">Google Speech-to-Text</option>
+          </select>
+        </div>
+
+        <div class="setting-row">
+          <label for="sourceLanguage">Source Language</label>
+          <select id="sourceLanguage" class="setting-select">
+            <option value="auto">Auto-detect</option>
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="zh">Chinese</option>
+            <option value="ja">Japanese</option>
+            <option value="ko">Korean</option>
+          </select>
+        </div>
+
+        <div class="setting-row">
+          <div class="toggle-row">
+            <label for="translationToggle">Enable Translation</label>
+            <div class="toggle-switch small">
+              <input type="checkbox" id="translationToggle" class="toggle-input">
+              <span class="toggle-slider"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-row" id="targetLanguageRow">
+          <label for="targetLanguage">Target Language</label>
+          <select id="targetLanguage" class="setting-select">
+            <option value="mn">Mongolian</option>
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="zh">Chinese</option>
+          </select>
+        </div>
+
+        <div class="setting-row">
+          <label for="subtitlePosition">Subtitle Position</label>
+          <select id="subtitlePosition" class="setting-select">
+            <option value="bottom">Bottom</option>
+            <option value="top">Top</option>
+            <option value="center">Center</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- API Key Status -->
+      <section class="api-status-section">
+        <h3>API Configuration</h3>
+        <div class="api-key-status">
+          <div class="api-key-row">
+            <span class="api-label">OpenAI API Key:</span>
+            <span class="api-status" id="openaiStatus">Not configured</span>
+          </div>
+          <div class="api-key-row">
+            <span class="api-label">Google API Key:</span>
+            <span class="api-status" id="googleStatus">Not configured</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Current Video Info -->
+      <section class="video-info-section" id="videoInfoSection" style="display: none;">
+        <h3>Current Video</h3>
+        <div class="video-info">
+          <div class="info-row">
+            <span class="info-label">Status:</span>
+            <span class="info-value" id="videoStatus">No video detected</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Audio Capture:</span>
+            <span class="info-value" id="audioStatus">Inactive</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Action Buttons -->
+      <section class="actions-section">
+        <button id="testSubtitles" class="action-button secondary">Test Subtitles</button>
+        <button id="openOptions" class="action-button primary">Advanced Settings</button>
+      </section>
+
+      <!-- Error Display -->
+      <div class="error-message" id="errorMessage" style="display: none;"></div>
+    </main>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

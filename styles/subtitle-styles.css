@@ -1,0 +1,209 @@
+/* Subtitle Styles for Live Subtitles Extension */
+
+.live-subtitles-overlay {
+  position: fixed;
+  z-index: 999999;
+  pointer-events: none;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+  padding: 8px 12px;
+  max-width: 80%;
+  text-align: center;
+  line-height: 1.4;
+  word-wrap: break-word;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Position variants */
+.live-subtitles-overlay.position-bottom {
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.live-subtitles-overlay.position-top {
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.live-subtitles-overlay.position-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Animation states */
+.live-subtitles-overlay.fade-in {
+  opacity: 1;
+}
+
+.live-subtitles-overlay.fade-out {
+  opacity: 0;
+}
+
+.live-subtitles-overlay.hidden {
+  display: none;
+}
+
+/* Translation subtitle styling */
+.live-subtitles-overlay.dual-subtitles {
+  padding: 12px 16px;
+}
+
+.live-subtitles-original {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+.live-subtitles-translation {
+  display: block;
+  font-weight: bold;
+}
+
+/* Style variants */
+.live-subtitles-overlay.style-minimal {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 2px;
+  padding: 4px 8px;
+  font-size: 16px;
+}
+
+.live-subtitles-overlay.style-bold {
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.live-subtitles-overlay.style-outline {
+  background-color: transparent;
+  color: white;
+  text-shadow: 
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000,
+    -2px -2px 0 #000,  
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000;
+  font-weight: bold;
+}
+
+/* Color themes */
+.live-subtitles-overlay.theme-white {
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.live-subtitles-overlay.theme-yellow {
+  color: #000;
+  background-color: rgba(255, 255, 0, 0.9);
+}
+
+.live-subtitles-overlay.theme-blue {
+  color: white;
+  background-color: rgba(0, 100, 200, 0.9);
+}
+
+/* Size variants */
+.live-subtitles-overlay.size-small {
+  font-size: 14px;
+  padding: 6px 10px;
+}
+
+.live-subtitles-overlay.size-large {
+  font-size: 22px;
+  padding: 10px 14px;
+}
+
+.live-subtitles-overlay.size-xlarge {
+  font-size: 26px;
+  padding: 12px 18px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .live-subtitles-overlay {
+    max-width: 90%;
+    font-size: 16px;
+    padding: 6px 10px;
+  }
+  
+  .live-subtitles-overlay.size-large {
+    font-size: 18px;
+  }
+  
+  .live-subtitles-overlay.size-xlarge {
+    font-size: 20px;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .live-subtitles-overlay {
+    background-color: rgba(0, 0, 0, 0.95);
+    border: 1px solid white;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .live-subtitles-overlay {
+    transition: none;
+  }
+}
+
+/* Focus and accessibility */
+.live-subtitles-overlay:focus {
+  outline: 2px solid #4285f4;
+  outline-offset: 2px;
+}
+
+/* Error state styling */
+.live-subtitles-overlay.error {
+  background-color: rgba(220, 53, 69, 0.9);
+  color: white;
+  border: 1px solid rgba(220, 53, 69, 1);
+}
+
+/* Loading state styling */
+.live-subtitles-overlay.loading {
+  background-color: rgba(108, 117, 125, 0.9);
+  color: white;
+}
+
+.live-subtitles-overlay.loading::after {
+  content: "...";
+  animation: loading-dots 1.5s infinite;
+}
+
+@keyframes loading-dots {
+  0%, 20% {
+    color: rgba(255, 255, 255, 0);
+    text-shadow: .25em 0 0 rgba(255, 255, 255, 0),
+                 .5em 0 0 rgba(255, 255, 255, 0);
+  }
+  40% {
+    color: white;
+    text-shadow: .25em 0 0 rgba(255, 255, 255, 0),
+                 .5em 0 0 rgba(255, 255, 255, 0);
+  }
+  60% {
+    text-shadow: .25em 0 0 white,
+                 .5em 0 0 rgba(255, 255, 255, 0);
+  }
+  80%, 100% {
+    text-shadow: .25em 0 0 white,
+                 .5em 0 0 white;
+  }
+}
