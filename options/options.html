@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live Subtitles - Advanced Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="options-container">
+    <header class="options-header">
+      <h1>Live Subtitles - Advanced Settings</h1>
+      <p>Configure API keys, subtitle appearance, and advanced features</p>
+    </header>
+
+    <main class="options-content">
+      <!-- API Configuration -->
+      <section class="settings-section">
+        <h2>API Configuration</h2>
+        <p class="section-description">Configure your speech recognition and translation API keys</p>
+
+        <div class="api-config">
+          <div class="api-provider">
+            <h3>OpenAI Whisper API</h3>
+            <p>High-accuracy speech recognition with support for multiple languages</p>
+            
+            <div class="form-group">
+              <label for="openaiApiKey">API Key</label>
+              <div class="key-input-group">
+                <input type="password" id="openaiApiKey" placeholder="sk-..." class="api-key-input">
+                <button type="button" id="testOpenaiKey" class="test-button">Test</button>
+              </div>
+              <small class="form-help">Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a></small>
+              <div class="key-status" id="openaiKeyStatus"></div>
+            </div>
+          </div>
+
+          <div class="api-provider">
+            <h3>Google Cloud API</h3>
+            <p>Backup speech recognition and translation services</p>
+            
+            <div class="form-group">
+              <label for="googleApiKey">API Key</label>
+              <div class="key-input-group">
+                <input type="password" id="googleApiKey" placeholder="AIza..." class="api-key-input">
+                <button type="button" id="testGoogleKey" class="test-button">Test</button>
+              </div>
+              <small class="form-help">Get your API key from <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Cloud Console</a></small>
+              <div class="key-status" id="googleKeyStatus"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Speech Recognition Settings -->
+      <section class="settings-section">
+        <h2>Speech Recognition</h2>
+        <p class="section-description">Configure audio processing and recognition preferences</p>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="preferredApiSelect">Preferred API Provider</label>
+            <select id="preferredApiSelect" class="form-select">
+              <option value="openai">OpenAI Whisper (Recommended)</option>
+              <option value="google">Google Speech-to-Text</option>
+            </select>
+            <small class="form-help">OpenAI Whisper generally provides better accuracy</small>
+          </div>
+
+          <div class="form-group">
+            <label for="sourceLanguageSelect">Source Language</label>
+            <select id="sourceLanguageSelect" class="form-select">
+              <option value="auto">Auto-detect</option>
+              <option value="en">English</option>
+              <option value="es">Spanish</option>
+              <option value="fr">French</option>
+              <option value="de">German</option>
+              <option value="zh">Chinese (Mandarin)</option>
+              <option value="ja">Japanese</option>
+              <option value="ko">Korean</option>
+              <option value="ru">Russian</option>
+              <option value="pt">Portuguese</option>
+              <option value="it">Italian</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="audioQuality">Audio Quality</label>
+            <select id="audioQuality" class="form-select">
+              <option value="high">High (Best accuracy, more data)</option>
+              <option value="medium">Medium (Balanced)</option>
+              <option value="low">Low (Fast processing, less data)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="chunkSize">Processing Chunk Size</label>
+            <select id="chunkSize" class="form-select">
+              <option value="2000">2 seconds (Faster response)</option>
+              <option value="3000">3 seconds (Recommended)</option>
+              <option value="5000">5 seconds (Better context)</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Translation Settings -->
+      <section class="settings-section">
+        <h2>Translation</h2>
+        <p class="section-description">Configure automatic translation of subtitles</p>
+
+        <div class="form-group">
+          <div class="checkbox-group">
+            <input type="checkbox" id="enableTranslation" class="form-checkbox">
+            <label for="enableTranslation">Enable automatic translation</label>
+          </div>
+        </div>
+
+        <div class="translation-settings" id="translationSettings">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="targetLanguageSelect">Target Language</label>
+              <select id="targetLanguageSelect" class="form-select">
+                <option value="mn">Mongolian</option>
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="zh">Chinese (Simplified)</option>
+                <option value="ja">Japanese</option>
+                <option value="ko">Korean</option>
+                <option value="ru">Russian</option>
+                <option value="pt">Portuguese</option>
+                <option value="it">Italian</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <div class="checkbox-group">
+                <input type="checkbox" id="showOriginal" class="form-checkbox">
+                <label for="showOriginal">Show original text with translation</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Subtitle Appearance -->
+      <section class="settings-section">
+        <h2>Subtitle Appearance</h2>
+        <p class="section-description">Customize how subtitles appear on videos</p>
+
+        <div class="appearance-settings">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="subtitlePosition">Position</label>
+              <select id="subtitlePosition" class="form-select">
+                <option value="bottom">Bottom of video</option>
+                <option value="top">Top of video</option>
+                <option value="center">Center of video</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="fontSize">Font Size</label>
+              <select id="fontSize" class="form-select">
+                <option value="14px">Small (14px)</option>
+                <option value="16px">Medium (16px)</option>
+                <option value="18px">Large (18px)</option>
+                <option value="20px">Extra Large (20px)</option>
+                <option value="24px">Huge (24px)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="fontFamily">Font Family</label>
+              <select id="fontFamily" class="form-select">
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="Helvetica, sans-serif">Helvetica</option>
+                <option value="Georgia, serif">Georgia</option>
+                <option value="Times New Roman, serif">Times New Roman</option>
+                <option value="Courier New, monospace">Courier New</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="textColor">Text Color</label>
+              <input type="color" id="textColor" value="#ffffff" class="form-color">
+            </div>
+
+            <div class="form-group">
+              <label for="backgroundColor">Background Color</label>
+              <input type="color" id="backgroundColor" value="#000000" class="form-color">
+            </div>
+
+            <div class="form-group">
+              <label for="backgroundOpacity">Background Opacity</label>
+              <input type="range" id="backgroundOpacity" min="0" max="100" value="80" class="form-range">
+              <span class="range-value" id="opacityValue">80%</span>
+            </div>
+          </div>
+
+          <div class="preview-section">
+            <h4>Preview</h4>
+            <div class="subtitle-preview" id="subtitlePreview">
+              <div class="sample-subtitle">Sample subtitle text</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Advanced Options -->
+      <section class="settings-section">
+        <h2>Advanced Options</h2>
+        <p class="section-description">Additional configuration options</p>
+
+        <div class="form-group">
+          <div class="checkbox-group">
+            <input type="checkbox" id="enableLogging" class="form-checkbox">
+            <label for="enableLogging">Enable debug logging</label>
+          </div>
+          <small class="form-help">Helps with troubleshooting issues</small>
+        </div>
+
+        <div class="form-group">
+          <div class="checkbox-group">
+            <input type="checkbox" id="autoEnable" class="form-checkbox">
+            <label for="autoEnable">Auto-enable subtitles on video detection</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="maxDisplayTime">Subtitle Display Duration</label>
+          <select id="maxDisplayTime" class="form-select">
+            <option value="3000">3 seconds</option>
+            <option value="5000">5 seconds (Default)</option>
+            <option value="7000">7 seconds</option>
+            <option value="10000">10 seconds</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Actions -->
+      <section class="actions-section">
+        <div class="action-buttons">
+          <button type="button" id="resetSettings" class="button secondary">Reset to Defaults</button>
+          <button type="button" id="exportSettings" class="button secondary">Export Settings</button>
+          <button type="button" id="importSettings" class="button secondary">Import Settings</button>
+          <button type="button" id="saveSettings" class="button primary">Save Settings</button>
+        </div>
+        
+        <div class="save-status" id="saveStatus"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Import/Export Dialog -->
+  <div class="modal" id="importExportModal" style="display: none;">
+    <div class="modal-content">
+      <h3 id="modalTitle">Import Settings</h3>
+      <textarea id="settingsJson" placeholder="Paste settings JSON here..." rows="10"></textarea>
+      <div class="modal-actions">
+        <button type="button" id="cancelModal" class="button secondary">Cancel</button>
+        <button type="button" id="confirmModal" class="button primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="fileInput" accept=".json" style="display: none;">
+  
+  <script src="options.js"></script>
+</body>
+</html>

@@ -8,7 +8,8 @@
     "activeTab",
     "storage",
     "scripting",
-    "tabs"
+    "tabs",
+    "contextMenus"
   ],
   
   "host_permissions": [
@@ -26,6 +27,7 @@
       "js": [
         "utils/constants.js",
         "utils/audio-utils.js",
+        "utils/storage.js",
         "content/video-detector.js",
         "content/audio-capture.js",
         "content/subtitle-overlay.js",
@@ -42,13 +44,6 @@
   },
   
   "options_page": "options/options.html",
-  
-  "icons": {
-    "16": "icons/icon16.png",
-    "32": "icons/icon32.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
-  },
   
   "web_accessible_resources": [
     {

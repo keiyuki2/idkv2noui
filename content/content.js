@@ -369,6 +369,13 @@ class LiveSubtitlesController {
         });
         break;
         
+      case 'testSubtitles':
+        if (this.subtitleOverlay) {
+          this.subtitleOverlay.showPreview('Test subtitle - Live Subtitles extension is working!');
+        }
+        sendResponse({ success: true });
+        break;
+        
       default:
         sendResponse({ success: false, error: 'Unknown action' });
     }

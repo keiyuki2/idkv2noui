@@ -1,4 +1,12 @@
 // Background service worker for API communication and extension management
+
+// Import API clients
+importScripts('utils/constants.js');
+importScripts('utils/storage.js');
+importScripts('api/whisper-client.js');
+importScripts('api/google-speech.js');
+importScripts('api/translator.js');
+
 class BackgroundService {
   constructor() {
     this.init();
@@ -356,193 +364,7 @@ class BackgroundService {
   }
 }
 
-// API client classes (to be imported)
-class WhisperClient {
-  constructor(apiKey) {
-    this.apiKey = apiKey;
-    this.baseUrl = CONSTANTS.APIS.OPENAI_WHISPER_URL;
-  }
-
-  async transcribe(audioData, options = {}) {
-    const formData = new FormData();
-    
-    // Convert base64 to blob
-    const audioBlob = this.base64ToBlob(audioData, `audio/${options.format || 'webm'}`);
-    formData.append('file', audioBlob, `audio.${options.format || 'webm'}`);
-    formData.append('model', 'whisper-1');
-    
-    if (options.language) {
-      formData.append('language', options.language);
-    }
-
-    const response = await fetch(this.baseUrl, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${this.apiKey}`
-      },
-      body: formData
-    });
-
-    if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.status}`);
-    }
-
-    const result = await response.json();
-    return {
-      text: result.text,
-      confidence: 1.0, // Whisper doesn't provide confidence scores
-      language: options.language || 'unknown'
-    };
-  }
-
-  async testConnection() {
-    // Simple test with minimal audio data
-    try {
-      // Create a minimal audio blob for testing
-      const testBlob = new Blob([''], { type: 'audio/webm' });
-      const formData = new FormData();
-      formData.append('file', testBlob, 'test.webm');
-      formData.append('model', 'whisper-1');
-
-      const response = await fetch(this.baseUrl, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${this.apiKey}`
-        },
-        body: formData
-      });
-
-      // Even if transcription fails, a 401 means invalid key, anything else means key is valid
-      return response.status !== 401;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  base64ToBlob(base64, mimeType) {
-    const byteCharacters = atob(base64);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    return new Blob([byteArray], { type: mimeType });
-  }
-}
-
-class GoogleSpeechClient {
-  constructor(apiKey) {
-    this.apiKey = apiKey;
-    this.baseUrl = CONSTANTS.APIS.GOOGLE_SPEECH_URL;
-  }
-
-  async transcribe(audioData, options = {}) {
-    const requestBody = {
-      config: {
-        encoding: this.getGoogleEncoding(options.format),
-        sampleRateHertz: CONSTANTS.AUDIO.SAMPLE_RATE,
-        languageCode: options.languageCode || 'en-US'
-      },
-      audio: {
-        content: audioData
-      }
-    };
-
-    const response = await fetch(`${this.baseUrl}?key=${this.apiKey}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(requestBody)
-    });
-
-    if (!response.ok) {
-      throw new Error(`Google Speech API error: ${response.status}`);
-    }
-
-    const result = await response.json();
-    
-    if (!result.results || result.results.length === 0) {
-      return { text: '', confidence: 0, language: options.languageCode };
-    }
-
-    const alternative = result.results[0].alternatives[0];
-    return {
-      text: alternative.transcript,
-      confidence: alternative.confidence || 0,
-      language: options.languageCode
-    };
-  }
-
-  getGoogleEncoding(format) {
-    switch (format) {
-      case 'webm': return 'WEBM_OPUS';
-      case 'mp4': return 'MP3';
-      case 'wav': return 'LINEAR16';
-      default: return 'WEBM_OPUS';
-    }
-  }
-
-  async testConnection() {
-    // Test with minimal request
-    try {
-      const response = await fetch(`${this.baseUrl}?key=${this.apiKey}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          config: { encoding: 'LINEAR16', sampleRateHertz: 16000, languageCode: 'en-US' },
-          audio: { content: '' }
-        })
-      });
-      
-      return response.status !== 401 && response.status !== 403;
-    } catch (error) {
-      return false;
-    }
-  }
-}
-
-class TranslationClient {
-  constructor(apiKey) {
-    this.apiKey = apiKey;
-    this.baseUrl = CONSTANTS.APIS.GOOGLE_TRANSLATE_URL;
-  }
-
-  async translate(text, options = {}) {
-    const params = new URLSearchParams({
-      key: this.apiKey,
-      q: text,
-      target: options.target || 'mn'
-    });
-
-    if (options.source) {
-      params.append('source', options.source);
-    }
-
-    const response = await fetch(`${this.baseUrl}?${params}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`Google Translate API error: ${response.status}`);
-    }
-
-    const result = await response.json();
-    
-    if (!result.data || !result.data.translations || result.data.translations.length === 0) {
-      throw new Error('No translation result');
-    }
-
-    const translation = result.data.translations[0];
-    return {
-      translatedText: translation.translatedText,
-      detectedSourceLanguage: translation.detectedSourceLanguage
-    };
-  }
-}
+// API client classes (included via importScripts above)
 
 // Initialize background service
 new BackgroundService();
